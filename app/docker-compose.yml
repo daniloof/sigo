@@ -1,5 +1,5 @@
 # Use postgres/example user/password credentials
-version: '3.8'
+version: '3.5'
 
 networks: 
     postgres-compose-network:
@@ -7,14 +7,29 @@ networks:
 
 services:    
     
+    app:
+        build: .
+        image: app
+        ports:
+            - "5000:5000"
+        networks:
+            - postgres-compose-network
+        depends_on:
+            - db
+
     rabbitmq:
-        image: rabbitmq
+        image: rabbitmq:3-management
         ports:
             - 5672:5672
             - 15672:15672
+        environment:
+            - RABBITMQ_DEFAULT_USER=guest
+            - RABBITMQ_DEFAULT_PASS=guest
+            - RABBITMQ_USER=guest
+            - RABBITMQ_PASSWORD=guest
         volumes:
-            - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-            - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+            - ./tmp/rabbitmq/data/:/var/lib/rabbitmq/
+            - ./tmp/rabbitmq/log/:/var/log/rabbitmq
         networks:
             - postgres-compose-network
 
@@ -23,6 +38,7 @@ services:
         environment:
             POSTGRES_PASSWORD: postgres
             POSTGRES_DB: sigo
+        restart: always
         ports:
             - "5432:5432"
         networks:
@@ -33,10 +49,10 @@ services:
         environment:
             PGADMIN_DEFAULT_EMAIL: "furtado.danilo@gmail.com"
             PGADMIN_DEFAULT_PASSWORD: "PgAdmin"
+            PGADMIN_LISTEN_PORT: 80
         ports:
-            - "16543:6543"
+            - "5674:80"
         depends_on:
             - db
         networks:
             - postgres-compose-network
-  

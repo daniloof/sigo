@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 import normas as nm
 import json
 import send_queue as sq
-import receive_queue as rq
 import gpi_financeiro as gf
 import integracao_bi as ib
 

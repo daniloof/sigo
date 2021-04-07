@@ -3,7 +3,7 @@ import pika
 def insere_fila (queue,routing_key,body):
 
     try:
-        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+        connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
         channel = connection.channel()
 
         channel.queue_declare(queue=queue)
