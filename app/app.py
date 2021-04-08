@@ -10,8 +10,8 @@ app = Flask(__name__)
 @app.route('/api/normas/inserir', methods=['POST'])
 def normas_inserir():
     content = request.get_json(silent=True)
-    data = json.dumps(content)
-    data = json.loads(data)
+    data_j = json.dumps(content)
+    data = json.loads(data_j)
 
     cd_norma = data['cd_norma']
     ds_norma = data['ds_norma']

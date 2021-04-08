@@ -63,7 +63,6 @@ def atualiza_norma(cd_norma, ds_norma, cd_orgao_regulamentador):
     
     sql = """UPDATE normas SET ds_norma = %s, cd_orgao_regulamentador = %s, dt_atualizacao = %s WHERE cd_norma = %s;"""
     conn = None
-    updated_rows = 0
     
     now = datetime.now()
     dt_atualizacao = str(now.year).zfill(4) + "/" + str(now.month).zfill(2) + "/" + str(now.day).zfill(2)
@@ -78,7 +77,6 @@ def atualiza_norma(cd_norma, ds_norma, cd_orgao_regulamentador):
         
         # execute the UPDATE statement
         cur.execute(sql, (ds_norma.upper(), cd_orgao_regulamentador.upper(), dt_atualizacao, cd_norma.upper()))
-        updated_rows = cur.rowcount
         
         # commit the changes to the database
         conn.commit()
