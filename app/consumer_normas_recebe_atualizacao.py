@@ -16,7 +16,6 @@ def main():
 
     #connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq',port=5672))
     connection = pika.BlockingConnection(parameters)
-    
     channel = connection.channel()
 
     channel.queue_declare(queue='fila')
@@ -31,6 +30,9 @@ def main():
         cd_orgao_regulamentador = data['cd_orgao_regulamentador']
 
         resultado = nm.atualiza_norma(cd_norma, ds_norma, cd_orgao_regulamentador)
+
+        if resultado == "OK":
+            print("Norma atualiazada")
 
     channel.basic_consume(queue=fila, on_message_callback=callback, auto_ack=True)
 

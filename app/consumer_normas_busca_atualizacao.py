@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import pika, sys, os
 import json
-import normas as nm
 
 def main():
 
