@@ -8,7 +8,15 @@ def main():
     
     fila = 'volta_normas_orgaos_reg'
 
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
+    credentials = pika.PlainCredentials('guest', 'guest')
+    parameters = pika.ConnectionParameters('localhost',
+                                       5672,
+                                       '/',
+                                       credentials)
+
+    #connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq',port=5672))
+    connection = pika.BlockingConnection(parameters)
+    
     channel = connection.channel()
 
     channel.queue_declare(queue='fila')

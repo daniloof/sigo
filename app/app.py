@@ -157,7 +157,6 @@ def integracao_bi_integrar():
     
     #para cada integracao chamar a respectiva api e retornar dados para o BI
     for x in data:
-        
         #chamar a API aqui
         #---------request--------
         
