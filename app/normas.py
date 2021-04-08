@@ -26,7 +26,7 @@ def insere_norma(cd_norma, ds_norma, cd_orgao_regulamentador):
         conn.commit()
         # close communication with the database
         cur.close()
-        return "Norma inserida com sucesso"
+        return "OK"
     except (Exception, psycopg2.DatabaseError) as error:
          return str(error)
     finally:

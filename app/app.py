@@ -12,14 +12,26 @@ def normas_inserir():
     content = request.get_json(silent=True)
     data = json.dumps(content)
     data = json.loads(data)
-    
-    #result['getpoolstatus']['data']['networkdiff']
 
     cd_norma = data['cd_norma']
     ds_norma = data['ds_norma']
     cd_orgao_regulamentador = data['cd_orgao_regulamentador']
 
-    return nm.insere_norma(cd_norma, ds_norma, cd_orgao_regulamentador)
+    resultado = nm.insere_norma(cd_norma, ds_norma, cd_orgao_regulamentador)
+
+    if resultado == "OK":
+        try:
+            #posta fila rabbitMQ para atualizacao do sistema legado
+            fila = sq.insere_fila("normas_legado","normas_legado",data_j)
+
+            if fila == "OK":
+                return "Norma inserida com sucesso"
+            else:
+                return fila
+        except Exception as error:
+            return str(error)
+    else:
+        return resultado
 
 
 @app.route('/api/normas/listar', methods=['GET'])
